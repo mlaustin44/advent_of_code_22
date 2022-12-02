@@ -13,7 +13,7 @@ using namespace std;
 #define PAPER 2
 #define SCISSORS 3
 
-int scoreMatch(int thierMove, int yourMove) {
+int scoreMatchPart1(int thierMove, int yourMove) {
     int outcome = 0;
     // check for draws
     if (thierMove == yourMove) {
@@ -26,6 +26,25 @@ int scoreMatch(int thierMove, int yourMove) {
         outcome = (yourMove == 1) ? 6 : 0;
     }
     return (outcome + yourMove); //need to add the points for the original move
+}
+
+int scoreMatchPart2(int thierMove, int result) {
+    int score = 0;
+    if (result == 1) { // lose
+        if (thierMove == 1) { score += SCISSORS; } //rock, we pick scissors
+        else if (thierMove == 2) { score += ROCK; } //paper, we pick rock
+        else if (thierMove == 3) { score += PAPER; } //scissors, we pick paper
+    } else if (result == 2) { // draw
+        score += 3; //for a draw
+        score += thierMove; //to get a draw, we need the same choice as them
+    } else if (result == 3) { // win
+        score += 6; // for a win
+        if (thierMove == 1) { score += PAPER; } //rock, we pick paper
+        else if (thierMove == 2) { score += SCISSORS; } //paper, we pick scissors
+        else if (thierMove == 3) { score += ROCK; } //scissors, we pick rock
+    }
+
+    return score;
 }
 
 int letterToValue(char c) {
@@ -62,11 +81,19 @@ vector<vector< int >> parseInput(string inFile) {
 }
 
 int main(int argc, char* argv[]) {
-    int totalScore = 0;
-    
     auto input = parseInput(argv[1]);
+
+    // Part 1
+    int part1score = 0;
     for (auto& row : input) {
-        totalScore += scoreMatch(row[0], row[1]);
+        part1score += scoreMatchPart1(row[0], row[1]);
     }
-    cout << totalScore << "\n";
+    cout << "Part 1 score is: " << part1score << "\n";
+    // Part 2
+    int part2score = 0;
+    for (auto& row : input) {
+        part2score += scoreMatchPart2(row[0], row[1]);
+    }
+    cout << "Part 2 score is: " << part2score << "\n";
+
 }
