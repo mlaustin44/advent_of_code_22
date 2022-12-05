@@ -58,8 +58,43 @@ int solvePart1(vector<vector<char>> input) {
     return part1score;
 }
 
+int solvePart2(vector<vector<char>> input) {
+    int part2score = 0;
+
+    // iterate through lines 3 at a time
+    for (int i=0; i<input.size(); i += 3) {
+        // create 3 empty vectors, one per line, with an element per possible charecter (52)
+        vector<vector<int>> counts;
+        for (int i=0; i<3; i++) {
+            vector<int> linecount(53, 0);
+            counts.push_back(linecount);
+        }
+        // go through individual lines in the set
+        for (int j=0; j < 3; j++) {
+            vector<char> currentLine = input[i+j];
+            // for each charecter in the line, set the corresponding array element to 1 (avoid double counting - 1 is max per line!)
+            for (int k=0; k<currentLine.size(); k++) {
+                int currentChar = itemToPriority(currentLine[k]);
+                counts[j][currentChar] = 1;
+            }
+        }
+        // for each charecter, if it was in all 3 lines in the set then add its value to the total score
+        for (int k=0; k<=53; k++) {
+            if (
+                (counts[0][k] == 1) &&
+                (counts[1][k] == 1) &&
+                (counts[2][k] == 1)
+            ) { part2score += k; }
+        }
+    }
+
+    return part2score;
+}
+
 int main(int argc, char* argv[]) {
     auto input = parseInput(argv[1]);
     int part1soln = solvePart1(input);
     cout << "Part 1 solution: " << part1soln << "\n";
+    int part2soln = solvePart2(input);
+    cout << "Part 2 solution: " << part2soln << "\n";
 }
