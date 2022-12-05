@@ -11,7 +11,7 @@ solution: solution.cpp
 
 debug:
 	g++ -std=c++17 -g solution.cpp -o solution.o
-	gdb --args solution.o input
+	gdb --args solution.o testinput
 
 clean:
 	rm solution.o

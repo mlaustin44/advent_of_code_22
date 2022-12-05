@@ -53,8 +53,32 @@ int solvePart1(vector<elfPair> input) {
     return containedCount;
 }
 
+int solvePart2(vector<elfPair> input) {
+    int overlapCount = 0;
+
+    for (auto& pair : input) {
+        vector<int> cleaned(100, 0);
+        for (int i=pair.elf1start; i<pair.elf1end+1; i++) {
+            cleaned[i] += 1;
+        }
+        for (int j=pair.elf2start; j<pair.elf2end+1; j++) {
+            cleaned[j] += 1;
+        }
+        for (int k=0; k<100; k++) {
+            if (cleaned[k] > 1) { 
+                overlapCount++;
+                break;
+            }
+        }
+    }
+    return overlapCount;
+}
+
 int main(int argc, char* argv[]) {
     auto input = parseInput(argv[1]);
     auto part1soln = solvePart1(input);
     cout << "Part 1 solution: " << part1soln << "\n";
+    auto part2soln = solvePart2(input);
+    cout << "Part 2 solution: " << part2soln << "\n";
+
 }
