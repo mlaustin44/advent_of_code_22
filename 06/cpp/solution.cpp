@@ -19,7 +19,7 @@ int solve(string input, int windowSize) {
     for (int i=windowSize; i<input.size(); i++) {
         // a set _only_ contains unique objects
         set<char> window(input.begin() + i - windowSize, input.begin() + i);
-        // so if the set size is 4, we know all the elements are unique
+        // so if the set size is the window size, we know all the elements are unique
         if (window.size() == windowSize) { return i; }
     }
     return -1;
