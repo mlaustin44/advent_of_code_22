@@ -15,11 +15,15 @@ def parseInput(inputFile):
     nCol = int(raw[breakline - 1][-3])
     nRow = (breakline - 1)
 
+    # create empty arrays
     map = [[] for y in range(nCol)]
 
+    # helper array of the indexes where the crate letters are in a line
+    # this only supports <20 columns
     crateIdxs = [i for i in range (5, 100, 4)]
     crateIdxs.insert(0, 1)
 
+    # read the input file in and populate the map
     for r in range(nRow-1, -1, -1):
         for c in range(nCol):
             crate = raw[r][crateIdxs[c]]
@@ -54,6 +58,7 @@ def solvePart2(map, moves):
         temp = []
         for _ in range(move[0]):
             temp1 = map[move[1]-1].pop()
+            # insert at the beginning of list to preserve order
             temp.insert(0, temp1)
         map[move[2]-1] = map[move[2]-1] + temp
     result = ""
