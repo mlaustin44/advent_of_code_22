@@ -94,9 +94,28 @@ def solvePart1(root):
 
     return total
 
+def solvePart2(root):
+    totalSpace = 70000000
+    neededFree = 30000000
+    root.calcSize()
+    dirSizes = []
+    def getSizes(dir):
+        dirSizes.append([dir.name, dir.size])
+        for d in dir.subdirs:
+            getSizes(d)
+    getSizes(root)
+
+    needToDelete = neededFree - (totalSpace - root.size)
+    dirSizes.sort(key = lambda x: x[1])
+    for d in dirSizes:
+        if d[1] > needToDelete:
+            return d[1]
+    
 
 input = parseInput(sys.argv[1])
 rootdir = Directory('/')
 parseCommands(input, rootdir)
 part1soln = solvePart1(rootdir)
 print(f"Part 1 solution is: {part1soln}")
+part2soln = solvePart2(rootdir)
+print(f"Part 2 solution is: {part2soln}")
