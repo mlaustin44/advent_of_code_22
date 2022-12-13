@@ -30,8 +30,27 @@ def solvePart1(input):
     for idx in idxs:
         xval = xs[idx-1]
         sig_sum += xval * idx
-    return sig_sum
+    return sig_sum, xs
+
+def solvePart2(input, part1xs):
+    SCREEN_H = 6
+    SCREEN_W = 40
+    screen = np.zeros([6, 40])
+
+    total_ops = len(part1xs)
+    for i in range(total_ops):
+        current_r = int(i/SCREEN_W)
+        current_c = i % SCREEN_W
+        if (part1xs[i] - 1 <= current_c) and (part1xs[i] + 1 >= current_c):
+            screen[current_r][current_c] = 1
+    
+    for r in range(SCREEN_H):
+        for c in range(SCREEN_W):
+            print("#", end='') if (screen[r][c] == 1) else print(' ', end='')
+        print(' ')
 
 input = parseInput(sys.argv[1])
-part1soln = solvePart1(input)
+part1soln, part1xs = solvePart1(input)
 print(f"Part 1 solution is: {part1soln}")
+print("\n\nPart 2 solution: \n")
+solvePart2(input, part1xs)
