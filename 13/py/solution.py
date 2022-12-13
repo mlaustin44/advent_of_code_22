@@ -1,5 +1,6 @@
 import sys
 from functools import cmp_to_key
+from ast import literal_eval
 
 def parseInput(fName):
     with open(fName, 'r') as f:
@@ -8,8 +9,8 @@ def parseInput(fName):
 
     packets = []
     for i in range(0, len(input), 3):
-        packet1 = eval(input[i])
-        packet2 = eval(input[i+1])
+        packet1 = literal_eval(input[i])
+        packet2 = literal_eval(input[i+1])
         packets.append([packet1, packet2])
 
     return packets
@@ -47,7 +48,6 @@ def solvePart1(packets):
         result = comparePackets(p1, p2)
         if result < 0: 
             ordered_pkts.append(i+1)
-    print(ordered_pkts)
     return sum(ordered_pkts)
 
         
